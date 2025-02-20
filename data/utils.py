@@ -3,6 +3,10 @@ import pandas as pd
 
 from sklearn.datasets import fetch_kddcup99
 
+# Local imports
+from data.cicids2017 import load_cicids2017
+from data.nslkdd import load_nslkdd
+
 
 def load_kddcup99():
 
@@ -14,6 +18,7 @@ def load_kddcup99():
     y = pd.Series(y).apply(lambda x: x.decode('utf-8').rstrip('.'))
 
     return X, y
+
 
 def load_dataset(dataset_name: str, use_subsample: bool=False, subsample_size=1.0):
     """
@@ -31,6 +36,10 @@ def load_dataset(dataset_name: str, use_subsample: bool=False, subsample_size=1.
     match dataset_name:
         case 'kddcup99':
             X, y = load_kddcup99()
+        case 'cicids2017':
+            X, y = load_cicids2017()
+        case 'nslkdd':
+            X, y = load_nslkdd()
         case _:
             raise ValueError(f'Unknown dataset: {dataset_name}')
 
@@ -40,6 +49,9 @@ def load_dataset(dataset_name: str, use_subsample: bool=False, subsample_size=1.
         random_idx = np.sort(random_idx)
         X = X.iloc[random_idx].reset_index(drop=True)
         y = y.iloc[random_idx].reset_index(drop=True)
+
+    # The benign traffic should always be labeled "normal"
+    assert len(y == 'normal') > 0
 
     return X, y
 

@@ -1,4 +1,14 @@
-data/**
+data/*
 !data/*.py
+
+# CIC-IDS-2017
+!data/cicids2017/
+data/cicids2017/*
+!data/cicids2017/*.py
+
+# NSL-KDD
+!data/nslkdd
+data/nslkdd/*
+!data/nslkdd/*.py
 
 **/__pycache__/*
