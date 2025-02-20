@@ -32,7 +32,7 @@ def plot_errors(errors, y, calibration_threshold: float=None):
 
 if __name__ == '__main__':
     
-    dataset_name = 'kddcup99'
+    dataset_name = 'nslkdd'
     test_split = 0.2
     calibration_split = 0.2  # Percentage of training data to use for calibration
     use_subsample = False  # Used to test the code

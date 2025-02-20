@@ -29,7 +29,7 @@ class NIDS_Preprocessor:
 
         X = X.copy()
         X.loc[:, self.cat_cols] = self.encoder.transform(X[self.cat_cols])
-        X.loc[:] = self.scaler.transform(X)
+        X = pd.DataFrame(self.scaler.transform(X), columns=X.columns, index=X.index)
         return X
     
     def fit_transform(self, X: pd.DataFrame):
@@ -43,7 +43,7 @@ class NIDS_Preprocessor:
             self.cat_cols = self.get_cat_cols(X)
 
         X.loc[:, self.cat_cols] = self.encoder.fit_transform(X[self.cat_cols])
-        X.loc[:] = self.scaler.fit_transform(X)
+        X = pd.DataFrame(self.scaler.fit_transform(X), columns=X.columns, index=X.index)
         self.is_fitted = True
         return X
 

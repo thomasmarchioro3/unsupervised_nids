@@ -27,15 +27,11 @@ class AutoEncoder(nn.Module):
         self.noise_stddev = noise_stddev
 
         self.encoder = nn.Sequential(
-            nn.Linear(num_features, 32),
-            nn.ReLU(),
-            nn.Linear(32, latent_dim)
+            nn.Linear(num_features, latent_dim)
         )
 
         self.decoder =  nn.Sequential(
-            nn.Linear(latent_dim, 32),
-            nn.ReLU(),
-            nn.Linear(32, num_features)
+            nn.Linear(latent_dim, num_features)
         )
 
         self.is_fitted = False
@@ -144,3 +140,38 @@ class AutoEncoder(nn.Module):
 
         errors = torch.cat(errors)
         return errors.numpy()
+    
+
+class StackedAutoEncoder(AutoEncoder):
+
+    def __init__(self, num_features: int, latent_dim: int=16, noise_stddev: float=0.1):
+        """
+            AutoEncoder model implementation, adapted from Choi H, Unsupervised learning approach for network intrusion detection system using autoencoders. The Journal of Supercomputing. 2019.
+            
+            The default parameter values for `latent_dim` and `noise_stddev` are taken from the original paper.
+
+            Args:
+                num_features (int): Number of input features.
+                latent_dim (int): Size of the latent dimensions. Default: 16.
+                noise_stddev (float): Standard deviation of the noise introduced in the latent dimension. Default: 0.1.
+        """
+
+        super().__init__()
+
+        self.num_features = num_features
+        self.latent_dim = latent_dim
+        self.noise_stddev = noise_stddev
+
+        self.encoder = nn.Sequential(
+            nn.Linear(num_features, 32),
+            nn.ReLU(),
+            nn.Linear(32, latent_dim)
+        )
+
+        self.decoder =  nn.Sequential(
+            nn.Linear(latent_dim, 32),
+            nn.ReLU(),
+            nn.Linear(32, num_features)
+        )
+
+        self.is_fitted = False
