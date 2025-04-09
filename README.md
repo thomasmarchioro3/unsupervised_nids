@@ -6,7 +6,7 @@ Current progress:
 - [ ] Kitsune [Mirsky2018]
 - [x] Autoencoder (including stacked and noisy) from [Choi2019]
 - [ ] Variational Autoencoder from [Choi2019]
-- [ ] MemAE [Gong2019]
+- [x] MemAE [Gong2019]
 
 References:
 

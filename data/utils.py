@@ -8,14 +8,17 @@ from data.cicids2017 import load_cicids2017
 from data.nslkdd import load_nslkdd
 
 
-def load_kddcup99():
+def load_kddcup99(percent10: bool=False, binary: bool=True):
 
-    data = fetch_kddcup99(percent10=True)
+    data = fetch_kddcup99(percent10=percent10)
     X = data.data
     y = data.target
 
     X = pd.DataFrame(X, columns=data.feature_names)
     y = pd.Series(y).apply(lambda x: x.decode('utf-8').rstrip('.'))
+
+    if binary:
+        y = y.apply(lambda x: 0 if x == 'normal' else 1)
 
     return X, y
 
