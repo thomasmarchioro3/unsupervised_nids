@@ -5,13 +5,33 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-# relu based hard shrinkage function, only works for positive values
-def hard_shrink_relu(input, lambd=0, epsilon=1e-12):
-    output = (F.relu(input-lambd) * input) / (torch.abs(input - lambd) + epsilon)
+def hard_shrink_relu(inputs: torch.Tensor, lambd: float=0, epsilon: float=1e-12):
+    """
+    ReLU-based hard shrinkage function. Implemented according to eq. (7) in [1].
+
+    [1] Gong et al. Memorizing normality to detect anomaly: Memory-augmented deep autoencoder for unsupervised anomaly detection. IEEE/CVF. 2019.
+
+    Args:
+        inputs (torch.Tensor): Tensor of non-negative values.
+        lambd (float): Threshold used for hard shrinkage for regularizing the memory unit. Must be non-negative.
+        epsilon (float): Small value used to avoid division by zero. Must be strictly positive.
+    """
+    output = (F.relu(inputs-lambd) * inputs) / (torch.abs(inputs - lambd) + epsilon)
     return output
 
 class MemoryUnit(nn.Module):
     def __init__(self, mem_dim: int, latent_dim: int, shrink_thres: float=0.0025):
+        """
+        Memory unit, re-implemented based on [1]. It maps an input to a latent dimension according to an attention-based mechanism.
+
+        [1] Gong et al. Memorizing normality to detect anomaly: Memory-augmented deep autoencoder for unsupervised anomaly detection. IEEE/CVF. 2019.
+
+        Args:
+            mem_dim (int): Size of the memory unit.
+            latent_dim (int): Size of the latent dimension.
+            shrink_thresh (float): Threshold used for hard shrinkage for regularizing the memory unit. Must be non-negative.
+        """
+
         super(MemoryUnit, self).__init__()
         self.mem_dim = mem_dim
         self.latent_dim = latent_dim
@@ -51,6 +71,16 @@ class MemoryUnit(nn.Module):
 
 class MemAE(nn.Module):
     def __init__(self, num_features: int, mem_dim: int, shrink_thres: float=0.0025):
+        """
+        MemAE model, re-implemented based on [1]. Core idea: Use memory unit to memorize normal patterns and induce larger errors in anomalies. 
+
+        [1] Gong et al. Memorizing normality to detect anomaly: Memory-augmented deep autoencoder for unsupervised anomaly detection. IEEE/CVF. 2019.
+
+        Args:
+            n_features (int): Number of input features.
+            mem_dim (int): Size of the memory unit.
+            shrink_thresh (float): Threshold used for hard shrinkage for regularizing the memory unit. Must be non-negative.
+        """
         super(MemAE, self).__init__()
 
         self.num_features = num_features

@@ -120,7 +120,7 @@ class AutoEncoder(nn.Module):
 
     def evaluate_errors(self, X, batch_size: int=256) -> np.ndarray:
         """
-            Evaluates the autoencoder model and returns the reconstruction errors.
+            Evaluates the reconstruction error of the autoencoder model on X.
 
             Args:
                 X (ArrayLike): Input data.

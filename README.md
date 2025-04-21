@@ -3,10 +3,12 @@
 Collection of unsupervised NIDS models from the existing academic literature, re-implemented in Pytorch.
 
 Current progress:
-- [ ] Kitsune [Mirsky2018]
+- [x] KitNET (Kitsune) [Mirsky2018]
 - [x] Autoencoder (including stacked and noisy) from [Choi2019]
 - [ ] Variational Autoencoder from [Choi2019]
 - [x] MemAE [Gong2019]
+
+*Note*: The KitNET implementation uses only NumPy to remain faithful to the original version.
 
 References:
 
