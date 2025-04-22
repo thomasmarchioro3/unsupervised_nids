@@ -16,6 +16,7 @@ class KitNET:
             max_autoencoder_size: int=10,
             learning_rate: float=0.1,
             hidden_ratio: float=0.75,
+            random_state: int | None=None,
         ):
         """
         Args:
@@ -23,6 +24,7 @@ class KitNET:
             max_autoencoder_size (int): Maximum number of input features for an autoencoder in the ensemble layer. Used while building the feature map via hierarchical correlation clustering.
             learning_rate (float): Learning rate for SGD.
             hidden_ratio (float): Ratio between features and latent dimension in the autoencoders.
+            random_state (float): PRNG seed. If None, a random one is used, leading to non-reproducible behavior.
         """
 
         self.num_features = num_features
@@ -40,6 +42,8 @@ class KitNET:
         self.output_layer = None
 
         self.correlation_cluster = CorrelationCluster(self.num_features)
+
+        self.random_state = random_state
             
 
     def fit(self, X_fm: np.ndarray, X_train: np.ndarray):
@@ -145,7 +149,7 @@ class KitNET:
                 training_period=0,
                 hidden_ratio=self.hidden_ratio
             )
-            self.ensemble_layer.append(KitNetAE(params))
+            self.ensemble_layer.append(KitNetAE(params, rng_seed=self.random_state))
         
         params = KitNetModelParameters(
             num_features=len(self.ensemble_layer),
@@ -155,4 +159,4 @@ class KitNET:
             training_period=0,
             hidden_ratio=self.hidden_ratio
         )
-        self.output_layer = KitNetAE(params)
+        self.output_layer = KitNetAE(params, rng_seed=self.random_state)
