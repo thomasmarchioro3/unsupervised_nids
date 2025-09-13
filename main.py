@@ -28,6 +28,7 @@ def plot_errors(errors, y, calibration_threshold: float=None):
         plt.axvline(x=calibration_threshold, color='k', linestyle='--', label='Calibration Threshold')
 
     plt.legend()
+    plt.draw()
     plt.show()
 
 if __name__ == '__main__':
