@@ -1,21 +1,6 @@
-data/*
-!data/*.py
-
-# CIC-IDS-2017
-!data/cicids2017/
-data/cicids2017/*
-!data/cicids2017/*.py
-!data/cicids2017/README.md
-
-# NSL-KDD
-!data/nslkdd
-data/nslkdd/*
-!data/nslkdd/*.py
-
-# Mirai
-!data/mirai
-data/mirai/*
-!data/mirai/*.py
-!data/mirai/README.md
-
 **/__pycache__/*
+
+.venv/
+.vscode/
+
+uv.lock

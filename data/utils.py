@@ -14,7 +14,9 @@ def load_kddcup99(percent10: bool=False, binary: bool=True):
     X = data.data
     y = data.target
 
-    X = pd.DataFrame(X, columns=data.feature_names)
+    feature_names = [str(feature) for feature in data.feature_names]
+
+    X = pd.DataFrame(X, columns=feature_names)
     y = pd.Series(y).apply(lambda x: x.decode('utf-8').rstrip('.'))
 
     if binary:
@@ -23,17 +25,19 @@ def load_kddcup99(percent10: bool=False, binary: bool=True):
     return X, y
 
 
-def load_dataset(dataset_name: str, use_subsample: bool=False, subsample_size=1.0):
+def load_dataset(dataset_name: str, use_subsample: bool=False, subsample_size=1.0) -> tuple[pd.DataFrame, pd.Series]:
     """
-        Load dataset.
+    Load dataset.
 
-        Available datasets:
-            - kddcup99
+    Available datasets:
+        - kddcup99
+        - cicids2017
+        - nslkdd
 
-        Args:
-            dataset_name (str): Name of the dataset.
-            use_subsample (bool): Whether to use a subsample of the dataset. Default: False.
-            subsample_size (float): Percentage of the dataset to use. Default: 1.0.
+    Args:
+        dataset_name (str): Name of the dataset.
+        use_subsample (bool): Whether to use a subsample of the dataset. Default: False.
+        subsample_size (float): Percentage of the dataset to use. Default: 1.0.
     """
 
     match dataset_name:
